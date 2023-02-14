@@ -19,5 +19,11 @@
         <elasticsearch.version>7.1.0</elasticsearch.version>
     </properties>
 
-
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub OWNER Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/CREAZYCAT/orm-elasticsearch</url>
+        </repository>
+    </distributionManagement>
 </project>

@@ -30,8 +30,6 @@ public class ElasticsearchUtils {
 
     static {
         RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
-
-        // 默认缓冲限制为100MB，此处修改为30MB。
         builder.setHttpAsyncResponseConsumerFactory(new HttpAsyncResponseConsumerFactory.HeapBufferedResponseConsumerFactory(30 * 1024 * 1024));
         COMMON_OPTIONS = builder.build();
     }
@@ -60,14 +58,8 @@ public class ElasticsearchUtils {
             log.info("index exist:[{}]", indexName);
             return;
         }
-
         try {
             CreateIndexRequest request = new CreateIndexRequest(indexName);
-            // Settings for this index
-//            request.settings(Settings.builder()
-//                    .put("index.number_of_shards", shards)
-//                    .put("index.number_of_replicas", replicas)
-//            );
             request.settings(setting.setDocType(clazz).setting().getBuilder());
             request.mapping(new ESClassLoopMapping(clazz).mapping().getBuilder());
             CreateIndexResponse createIndexResponse = client.indices().create(request, RequestOptions.DEFAULT);
